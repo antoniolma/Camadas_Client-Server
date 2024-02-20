@@ -96,16 +96,16 @@ def main():
             time.sleep(0.2)
             print('='*100)
             if respostaServer == rand_numero:
-                print("\nComunicacao BEM SUCEDIDA!!")
+                print("\n\033[92mComunicacao BEM SUCEDIDA!!\033[0m")
             else:
-                print("\nErro na Comunicacao!")
+                print("\n\033[91mErro na Comunicacao!\033[0m")
                 print("Resposta esperada: {}".format(rand_numero))
             print("Resposta do Server: {} comandos\n".format(respostaServer))
+            print('='*100)
         except:
             pass
 
         # Encerra comunicação
-        print('='*100)
         print("\n-------------------------")
         print("Comunicação encerrada")
         print("-------------------------\n")
