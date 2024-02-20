@@ -29,7 +29,6 @@ def main():
         # txLens = []
 
         print("Serao {} comandos!\n".format(rand_numero))
-        print(comandos)
 
         # Byte de sacrificio
         print('='*100)
@@ -46,9 +45,8 @@ def main():
         # Envia os comandos
         for i in range(0, rand_numero):
             time.sleep(0.2)
-            terminal_num = i+1
             print('='*100)
-            print("\nComando Num. {}".format(terminal_num))
+            print("\nComando Num. {}".format(i+1))
             txBuffer = comandos[i]
             com1.sendData(bytearray(txBuffer))
 
@@ -88,7 +86,7 @@ def main():
             
             if time.time() - start_time >= 5:
                 print('='*100)
-                print("\nTimeOut: Resposta demorou mais que 5 segundos")
+                print("\n\033[91mTimeOut: Resposta demorou mais que 5 segundos\033[0m")
                 print("Resposta esperada: {}\n".format(rand_numero))
                 break
 
