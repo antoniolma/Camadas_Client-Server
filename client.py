@@ -25,55 +25,27 @@ def main():
         # Cria protocolo para saber quando acabou
         protocolo = b'\x88\x99'
 
-        # Tamanhos a serem recortados do BufferRx
-        # txLens = []
-
         print("Serao {} comandos!\n".format(rand_numero))
 
         # Byte de sacrificio
         print('='*100)
         print("\nByte de Sacrificio\n")
         com1.sendData(b'00')
-
-        # # ===================== Codigo Teste =============================
-        # com1.enable()
-        # print("esperando 1 byte de sacrifício")
-        # rxBuffer, nRx = com1.getData(1)
-        # com1.rx.clearBuffer()
-        # time.sleep(.1)
+        comando = bytearray()
         
         # Envia os comandos
-        for i in range(0, rand_numero):
-            time.sleep(0.2)
-            print('='*100)
-            print("\nComando Num. {}".format(i+1))
-            txBuffer = comandos[i]
-            com1.sendData(bytearray(txBuffer))
-
-            # Tamanho enviado
-            txSize = com1.tx.getStatus()
-            print('enviou = {} bytes\n' .format(txSize))
-
-            # # ===================== Codigo Teste =============================
-            # time.sleep(0.1)
-            # # Tamanho a ser recortado no BufferRx
-            # txLen = len(txBuffer)
-            # # Mensagem e tamanho da mensagem recortada
-            # rxBuffer, nRx = com1.getData(txLen)
-            # print(f"nRx (tamanho da mensagem que se espera receber) = {nRx}")
-            # print("recebeu {} bytes" .format(len(rxBuffer)))
-
-
-        # Envia protocolo
         time.sleep(0.2)
-        print('='*100)
-        print("\nEnviando protocolo STOP\n")
-        com1.sendData(bytearray(protocolo))
+        for i in range(0, rand_numero):
+            comando += bytearray(comandos[i]) + b'\x22'
+
+        com1.sendData(bytearray(comando))
+        # Tamanho enviado
+        txSize = com1.tx.getStatus()
+        # print('enviou = {} bytes\n' .format(txSize))
 
         # =================================================================================================================================
         # Inicia espera da resposta
-        print('='*100)
-        print("\nAguardando resposta ...\n")
+
         start_time = time.time()
 
         # While esperando resposta
@@ -83,6 +55,10 @@ def main():
                 respostaServer = com1.rx.getAllBuffer()
                 respostaServer = int.from_bytes(respostaServer)
                 break
+            else:
+                # Envia protocolo
+                time.sleep(0.18)
+                com1.sendData(bytearray(protocolo))
             
             if time.time() - start_time >= 5:
                 print('='*100)
@@ -114,7 +90,6 @@ def main():
         print(erro)
         com1.disable()
         
-
     #so roda o main quando for executado do terminal ... se for chamado dentro de outro modulo nao roda
 if __name__ == "__main__":
     main()
