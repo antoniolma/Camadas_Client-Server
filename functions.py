@@ -13,7 +13,7 @@ Comando = {
 }
 
 def random_numero():
-    return random.randint(3,5)
+    return random.randint(10,30)
 
 def chama_comandos(repeticoes):
     ordem = []
